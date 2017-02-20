@@ -1,5 +1,5 @@
 <?php 
-
+echo $jsondata;
 /* foreach ($heroes as $hero_item): ?>
 
         <h3><?php echo $hero_item['heroID']; ?></h3>
