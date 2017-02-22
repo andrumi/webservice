@@ -23,23 +23,19 @@ class Api extends CI_Controller {
         $this->load->view('api/'.$page, $data);
 
 	} */
-	public function index()
+	public function index($id = NULL)
 	{
 			$data['heroes'] = $this->api_model->get_heroes();
-			/* $this->load->view('api/index', $data); */
-/* 			$jsondata=json_encode($data['heroes']);
-			$this->load->view('api/index', $jsondata); */
+
 			header('Content-Type: application/json');
 			echo json_encode($data['heroes']);
 	}
 
-	public function view($id = NULL)
+	public function detail($id = NULL)
 	{
-			$data['hero_item'] = $this->api_model->get_heroes($id);
-			$jsondata=json_encode($data);
-			$this->load->view('api/index', $jsondata);
-			/* header('Content-Type: application/json');
-			echo json_encode($data); */
+			$data['hero_item'] = $this->api_model->get_hero($id);
+			header('Content-Type: application/json');
+			echo json_encode($data['hero_item']);
 	}
 
 }
