@@ -33,5 +33,11 @@ class Api_model extends CI_Model {
 			$sucess = $this->db->delete('heroes');
 			return $sucess;
 		}
+		public function update_hero($record){
+			$this->db->set('name', $record['name']);
+			$this->db->where('id',$record['id']);
+			$sucess = $this->db->update('heroes');
+			return $sucess;
+		}
 		
 }
