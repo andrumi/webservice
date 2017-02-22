@@ -37,5 +37,14 @@ class Api extends CI_Controller {
 			header('Content-Type: application/json');
 			echo json_encode($data['hero_item']);
 	}
+	public function insert (){
+		$postdata = file_get_contents("php://input");
+		$request = json_decode($postdata);
+        $name = $request->name;
+		$newid = $this->api_model->insert_hero($name);
+		$data['hero_item'] = $this->api_model->get_hero($newid);
+		header('Content-Type: application/json');
+		echo json_encode($data['hero_item']);
+	}
 
 }

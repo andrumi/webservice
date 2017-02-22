@@ -22,4 +22,10 @@ class Api_model extends CI_Model {
 			$query = $this->db->get_where('heroes', array('id' => $id));
 			return $query->row_array();
 		}
+		public function insert_hero($hero= FALSE){
+			$this->db->set('name', $hero);
+			$this->db->insert('heroes');
+			$newid =$this->db->insert_id();
+			return $newid;
+		}
 }
