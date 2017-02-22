@@ -23,9 +23,15 @@ class Api_model extends CI_Model {
 			return $query->row_array();
 		}
 		public function insert_hero($hero= FALSE){
-			$this->db->set('name', $hero);
+			$this->db->set('name', $hero);// using set to allow future use of largere objects
 			$this->db->insert('heroes');
 			$newid =$this->db->insert_id();
 			return $newid;
 		}
+		public function delete_hero($id = FALSE){
+			$this->db->where('id',$id);
+			$sucess = $this->db->delete('heroes');
+			return $sucess;
+		}
+		
 }

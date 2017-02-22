@@ -46,5 +46,13 @@ class Api extends CI_Controller {
 		header('Content-Type: application/json');
 		echo json_encode($data['hero_item']);
 	}
+	public function delete (){
+		$postdata = file_get_contents("php://input");
+		$request = json_decode($postdata);
+        $id = $request->id;
+		$success = $this->api_model->delete_hero($id);
+		header('Content-Type: application/json');
+		echo json_encode($success);
+	}
 
 }
