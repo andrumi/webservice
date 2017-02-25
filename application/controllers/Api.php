@@ -47,18 +47,30 @@ class Api extends CI_Controller {
 	public function delete (){
 		$postdata = file_get_contents("php://input");
 		$request = json_decode($postdata);
+
         $id = $request->id;
+
 		$success = $this->api_model->delete_hero($id);
+		
 		header('Content-Type: application/json');
-		echo json_encode($success);
+		echo json_encode($success);	
 	}
 	public function update (){
-		$postdata = file_get_contents("php://input");
-		$data = json_decode($postdata);
-		$request['id'] = $data->id;
-		$request['name'] = $data->name;
-		$success = $this->api_model->update_hero($request);
 		header('Content-Type: application/json');
-		echo json_encode($success);		
+		$postdata = file_get_contents("php://input");
+		
+		log_message('debug','postdata = '.$postdata);
+		$request = json_decode($postdata);
+		$hero2= $request->hero2;
+		log_message('debug','the request id = '.$hero2);
+		$object= json_decode($hero2);
+		$data['id'] = $object->id;
+		log_message('debug','id = '.$data['id']);
+		$data['name'] = $object->name;
+		$success = $this->api_model->update_hero($data);
+		log_message('debug','sucess = '.$success);
+		$return = '{"TRUE":TRUE}';
+		header('Content-Type: application/json');
+		echo json_encode($return);	
 	}
 }
