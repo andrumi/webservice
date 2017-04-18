@@ -45,6 +45,17 @@ class Api_model extends CI_Model {
 			$sucess = $this->db->delete('items');
 			return $sucess;
 		}
+		public function update_item($newdata){
+            
+			$this->db->set('name', $newdata['name']);
+			$this->db->set('type', $newdata['type']);
+			$this->db->set('price', floatval($newdata['price']));
+			$this->db->where('id',$newdata['id']);
+			$success = $this->db->update('items');
+			//returns 1
+			return $success;
+		}
+		
 		public function register($user= FALSE){
 					
 			$this->db->set('name', $user);// using set to allow future use of largere objects

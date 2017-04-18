@@ -72,6 +72,29 @@ class Api extends CI_Controller {
 		header('Content-Type: application/json');
 		echo json_encode($success);	
 	}
+	public function updateitem (){
+		header('Content-Type: application/json');
+		$postdata = file_get_contents("php://input");
+		
+		log_message('debug','postdata = '.$postdata);
+		$request = json_decode($postdata);
+		$hero2= $request->itemJString;
+		log_message('debug','request = '.$hero2);
+		$object= json_decode($hero2);
+		$data['id'] = $object->id;
+		log_message('debug','id = '.$data['id']);
+		$data['name'] = $object->name;
+		log_message('debug','name = '.$data['name']);
+		$data['type'] = $object->type;
+		log_message('debug','type = '.$data['type']);
+		$data['price'] = $object->price;
+		log_message('debug','price = '.$data['price']);
+		$success = $this->api_model->update_item($data);
+		log_message('debug','sucess = '.$success);
+		
+		header('Content-Type: application/json');
+		echo json_encode($success);	
+	}
 	public function detail($id = NULL){
 			$data['hero_item'] = $this->api_model->get_hero($id);
 			header('Content-Type: application/json');
