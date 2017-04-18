@@ -38,6 +38,12 @@ class Api extends CI_Controller {
 			header('Content-Type: application/json');
 			echo json_encode($data['items']);
 	}
+	 public function search($term = NULL){
+			$data['items'] = $this->api_model->search($term);            
+			header('Content-Type: application/json');
+			log_message('debug','size in controller = '.Count($data['items']));
+			echo json_encode($data['items']);
+	}
 	public function detail2($id = NULL){
 			$data['item_item'] = $this->api_model->get_item($id);
 			header('Content-Type: application/json');

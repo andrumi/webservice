@@ -28,6 +28,17 @@ class Api_model extends CI_Model {
 			$query = $this->db->get_where('items', array('id' => $id));
 			return $query->row_array();
 		}
+		public function search($term = FALSE)
+		{	
+            log_message('debug','term = '.$term);	
+            $this->db->select('id','name');
+            $this->db->from('items');			
+			$this->db->like('name',$term);
+			$query = $this->db->get();
+
+			log_message('debug','size = '.Count($query));
+			return $query->result_array();
+		}
 		public function get_item($id = FALSE)
 		{
 			$query = $this->db->get_where('items', array('id' => $id));
@@ -35,7 +46,9 @@ class Api_model extends CI_Model {
 		}
 		public function insert_newitem($user= FALSE){
 					
-			$this->db->set('name', $user);// using set to allow future use of largere objects
+			$this->db->set('name', $user);
+			$this->db->set('type', 'None');
+			$this->db->set('price', 'No price available');// this isn't right because it's a double but it still outputs 0
 			$this->db->insert('items');
 			$newid =$this->db->insert_id();
 			return $newid;
