@@ -17,6 +17,46 @@ class Api_model extends CI_Model {
 			$query = $this->db->get_where('heroes', array('id' => $id));
 			return $query->row_array();
 		}
+		public function get_items($id = FALSE)
+		{
+			if ($id === FALSE)
+			{
+					$query = $this->db->get('items');
+					return $query->result_array();
+			}
+
+			$query = $this->db->get_where('items', array('id' => $id));
+			return $query->row_array();
+		}
+		public function get_item($id = FALSE)
+		{
+			$query = $this->db->get_where('items', array('id' => $id));
+			return $query->row_array();
+		}
+		public function insert_newitem($user= FALSE){
+					
+			$this->db->set('name', $user);// using set to allow future use of largere objects
+			$this->db->insert('items');
+			$newid =$this->db->insert_id();
+			return $newid;
+		}
+		public function delete_item($id = FALSE){
+			$this->db->where('id',$id);
+			$sucess = $this->db->delete('items');
+			return $sucess;
+		}
+		public function register($user= FALSE){
+					
+			$this->db->set('name', $user);// using set to allow future use of largere objects
+			$this->db->insert('users');
+			$newid =$this->db->insert_id();
+			return $newid;
+		}
+		public function get_user($id = FALSE)
+		{
+			$query = $this->db->get_where('users', array('id' => $id));
+			return $query->row_array();
+		}
 		public function get_hero($id = FALSE)
 		{
 			$query = $this->db->get_where('heroes', array('id' => $id));

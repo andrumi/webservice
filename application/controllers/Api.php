@@ -5,9 +5,12 @@ class Api extends CI_Controller {
 	
 	public function __construct()
         {
+			    
                 parent::__construct();
                 $this->load->model('api_model');
                 $this->load->helper('url_helper');
+				header('Access-Control-Allow-Origin:*');//this is a bit dodgy allowing access from anything
+							
         }
 
 /* 	public function view($page = 'index')
@@ -25,11 +28,50 @@ class Api extends CI_Controller {
 	} */
 	public function index($id = NULL){
 			$data['heroes'] = $this->api_model->get_heroes();
-
+            
 			header('Content-Type: application/json');
 			echo json_encode($data['heroes']);
 	}
+    public function getitems($id = NULL){
+			$data['items'] = $this->api_model->get_items();
+            
+			header('Content-Type: application/json');
+			echo json_encode($data['items']);
+	}
+	public function detail2($id = NULL){
+			$data['item_item'] = $this->api_model->get_item($id);
+			header('Content-Type: application/json');
+			echo json_encode($data['item_item']);
+	}
+	public function register (){
+		$postdata = file_get_contents("php://input");
+		$request = json_decode($postdata);
 
+        $name = $request->name;
+		$newid = $this->api_model->register($name);
+		$data['user_item'] = $this->api_model->get_user($newid);
+		header('Content-Type: application/json');
+		echo json_encode($data['user_item']);
+	}
+	public function newitem (){
+		$postdata = file_get_contents("php://input");
+		$request = json_decode($postdata);
+        $name = $request->name;
+		log_message('debug','postdata = '.$postdata);
+		log_message('debug','name = '.$name);
+		$newid = $this->api_model->insert_newitem($name);
+		$data['item_item'] = $this->api_model->get_item($newid);
+		header('Content-Type: application/json');
+		echo json_encode($data['item_item']);
+	}
+	public function delete_item (){
+		$postdata = file_get_contents("php://input");
+		$request = json_decode($postdata);
+        $id = $request->id;
+		$success = $this->api_model->delete_item($id);		
+		header('Content-Type: application/json');
+		echo json_encode($success);	
+	}
 	public function detail($id = NULL){
 			$data['hero_item'] = $this->api_model->get_hero($id);
 			header('Content-Type: application/json');
@@ -39,6 +81,7 @@ class Api extends CI_Controller {
 		$postdata = file_get_contents("php://input");
 		$request = json_decode($postdata);
         $name = $request->name;
+		
 		$newid = $this->api_model->insert_hero($name);
 		$data['hero_item'] = $this->api_model->get_hero($newid);
 		header('Content-Type: application/json');
