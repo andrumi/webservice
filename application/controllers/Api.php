@@ -26,22 +26,33 @@ class Api extends CI_Controller {
         $this->load->view('api/'.$page, $data);
 
 	} */
-	public function index($id = NULL){
+/*	public function index($id = NULL){
 			$data['heroes'] = $this->api_model->get_heroes();
             
 			header('Content-Type: application/json');
 			echo json_encode($data['heroes']);
-	}
-    public function getitems($id = NULL){
-			$data['items'] = $this->api_model->get_items();
-            
-			header('Content-Type: application/json');
-			echo json_encode($data['items']);
+	}*/
+    public function getitems($authkey = NULL){
+		    log_message('debug','authkey in getItems()= '.$authkey);
+		    $check = $this->api_model-> doCheck($authkey);
+			if (!$check){
+				log_message('debug','check in  !check= '.$check);
+				header('Content-Type: application/json');				
+                $error['error']= 'not authorised';
+				log_message('debug','error in !check= '.json_encode($error));
+                echo json_encode($error);
+				log_message('debug','error in !check= '.json_encode($error));
+			}else {
+                $data['items'] = $this->api_model->get_items();            
+			    header('Content-Type: application/json');
+			    echo json_encode($data['items']);
+			}			
 	}
 	 public function search($term = NULL){
 			$data['items'] = $this->api_model->search($term);            
 			header('Content-Type: application/json');
 			log_message('debug','size in controller = '.Count($data['items']));
+			
 			echo json_encode($data['items']);
 	}
 	public function detail2($id = NULL){

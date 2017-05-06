@@ -17,6 +17,25 @@ class Api_model extends CI_Model {
 			$query = $this->db->get_where('heroes', array('id' => $id));
 			return $query->row_array();
 		}
+		public function doCheck($authkey = FALSE){
+			log_message('debug','authkey in doCheck()= '.$authkey);
+
+			$this->db->select('authkey');
+			$this->db-> from('AuthKeys');
+			$this->db->where('authkey',$authkey);
+			$this->db->limit(1);
+
+			$result = $this->db->get();
+			//log_message('debug','count $result in doCheck= ');
+			if ($result->num_rows()==1){
+				log_message('debug',' in doCheck result =1  ');
+				return TRUE;
+			}else {
+				log_message('debug',' in doCheck result =0  ');
+				return FALSE;
+			}			
+		}
+
 		public function get_items($id = FALSE)
 		{
 			if ($id === FALSE)
@@ -31,7 +50,7 @@ class Api_model extends CI_Model {
 		public function search($term = FALSE)
 		{	
             log_message('debug','term = '.$term);	
-            $this->db->select('id','name');
+            $this->db->select('*');
             $this->db->from('items');			
 			$this->db->like('name',$term);
 			$query = $this->db->get();
