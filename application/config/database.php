@@ -75,9 +75,9 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'mi-linux.wlv.ac.uk',
-	'username' => '1228264',
-	'password' => 'Bernard1',
+	'hostname' => '**********',
+	'username' => '***********',
+	'password' => '***********',
 	'database' => 'db1228264',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
